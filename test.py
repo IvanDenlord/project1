@@ -61,19 +61,7 @@ def create_create_camera_model_model(camera_matrix, width, height, scale_focal, 
     if draw_frame_axis:
         return [X_img_plane, X_triangle, X_center1, X_center2, X_center3, X_center4, X_frame1, X_frame2, X_frame3]
     else:
-        return [X_img_plane, X_triangle, X_center1, X_center2, X_center3, X_center4]
-    
-def transform_to_matplotlib_frame(cMo, X, inverse=False):
-    M = np.identity(4)
-    M[1,1] = 0
-    M[1,2] = 1
-    M[2,1] = -1
-    M[2,2] = 0
-
-    if inverse:
-        return M.dot(inverse_homogeneoux_matrix(cMo).dot(X))
-    else:
-        return M.dot(cMo.dot(X))
+        return [X_img_plane, X_triangle, X_center1, X_center2, X_center3, X_center4
     
 def transformation(cMo, X, inverse=False):
     M = np.identity(4)
