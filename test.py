@@ -8,6 +8,9 @@ from matplotlib import cm
 from numpy import linspace
 import argparse
 
+def create(new):
+    return False
+
 def create_create_camera_model_model(camera_matrix, width, height, scale_focal, draw_frame_axis=False,new_param=True):
     fy = camera_matrix[1,1]
     fx = camera_matrix[0,0]
@@ -39,12 +42,7 @@ def create_create_camera_model_model(camera_matrix, width, height, scale_focal, 
 
     X_frame3 = np.ones((4,2))
     X_frame3[0:3,0] = [0, 0, 0]
-    X_frame3[0:3,1] = [0, 0, f_scale/2]
-    
-    # draw camera
-    X_center1 = np.ones((4,2))
-    X_center1[0:3,0] = [0, 0, 0]
-    X_center1[0:3,1] = [-width, height, f_scale]
+    X_frame3[0:3,1] = [0, 0, f_scale/2
 
     X_center2 = np.ones((4,2))
     X_center2[0:3,0] = [0, 0, 0]
