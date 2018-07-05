@@ -165,7 +165,7 @@ def create_board_model(extrinsics, board_width, board_height, square_size, draw_
     X_board[0:3,3] = [0,height,0]
     X_board[0:3,4] = [0,0,0]
 
-def inverse_homogeneoux_matrix(M):
+def matrix(M):
     R = M[0:3, 0:3]
     T = M[0:3, 3]
     M_inv = np.identity(4)
