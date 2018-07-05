@@ -9,9 +9,9 @@ from numpy import linspace
 import argparse
 import cv2 as cv
 
-def create_camera_model(camera_matrix, width, height, scale_focal, draw_frame_axis=False):
-    fx = camera_matrix[0,0]
+def create_create_camera_model(camera_matrix, width, height, scale_focal, draw_frame_axis=False):
     fy = camera_matrix[1,1]
+    fx = camera_matrix[0,0]
     focal = 2 / (fx + fy)
     f_scale = scale_focal * focal
 
@@ -65,6 +65,18 @@ def create_camera_model(camera_matrix, width, height, scale_focal, draw_frame_ax
         return [X_img_plane, X_triangle, X_center1, X_center2, X_center3, X_center4]
     
 def transform_to_matplotlib_frame(cMo, X, inverse=False):
+    M = np.identity(4)
+    M[1,1] = 0
+    M[1,2] = 1
+    M[2,1] = -1
+    M[2,2] = 0
+
+    if inverse:
+        return M.dot(inverse_homogeneoux_matrix(cMo).dot(X))
+    else:
+        return M.dot(cMo.dot(X))
+    
+def transformation(cMo, X, inverse=False):
     M = np.identity(4)
     M[1,1] = 0
     M[1,2] = 1
