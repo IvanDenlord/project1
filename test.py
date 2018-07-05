@@ -88,6 +88,15 @@ def transformation(cMo, X, inverse=False):
     else:
         return M.dot(cMo.dot(X))
 
+def inverse_homogeneoux_matrix(M):
+    R = M[0:3, 0:3]
+    T = M[0:3, 3]
+    M_inv = np.identity(4)
+    M_inv[0:3, 0:3] = R.T
+    M_inv[0:3, 3] = -(R.T).dot(T)
+
+    return M_inv
+
 def create_camera_model(camera_matrix, width, height, scale_focal, draw_frame_axis=False):
     fx = camera_matrix[0,0]
     fy = camera_matrix[1,1]
@@ -156,24 +165,6 @@ def create_board_model(extrinsics, board_width, board_height, square_size, draw_
     X_board[0:3,3] = [0,height,0]
     X_board[0:3,4] = [0,0,0]
 
-    # draw board frame axis
-    X_frame1 = np.ones((4,2))
-    X_frame1[0:3,0] = [0, 0, 0]
-    X_frame1[0:3,1] = [height/2, 0, 0]
-
-    X_frame2 = np.ones((4,2))
-    X_frame2[0:3,0] = [0, 0, 0]
-    X_frame2[0:3,1] = [0, height/2, 0]
-
-    X_frame3 = np.ones((4,2))
-    X_frame3[0:3,0] = [0, 0, 0]
-    X_frame3[0:3,1] = [0, 0, height/2]
-
-    if draw_frame_axis:
-        return [X_board, X_frame1, X_frame2, X_frame3]
-    else:
-        return [X_board]
-
 def inverse_homogeneoux_matrix(M):
     R = M[0:3, 0:3]
     T = M[0:3, 3]
@@ -183,7 +174,7 @@ def inverse_homogeneoux_matrix(M):
 
     return M_inv
 
-def draw_camera_boards(ax, camera_matrix, cam_width, cam_height, scale_focal,
+def drawing_camera_boards(ax, camera_matrix, cam_width, cam_height, scale_focal,
                        extrinsics, board_width, board_height, square_size,
                        patternCentric):
     min_values = np.zeros((3,1))
@@ -277,20 +268,10 @@ def main():
     ax.set_zlabel('-y')
     ax.set_title('Extrinsic Parameters Visualization')
 
-    X_min = min_values[0]
-    X_max = max_values[0]
-    Y_min = min_values[1]
-    Y_max = max_values[1]
-    Z_min = min_values[2]
-    Z_max = max_values[2]
-    max_range = np.array([X_max-X_min, Y_max-Y_min, Z_max-Z_min]).max() / 2.0
-
-    mid_x = (X_max+X_min) * 0.5
-    mid_y = (Y_max+Y_min) * 0.5
-    mid_z = (Z_max+Z_min) * 0.5
-    ax.set_xlim(mid_x - max_range, mid_x + max_range)
-    ax.set_ylim(mid_y - max_range, mid_y + max_range)
-    ax.set_zlim(mid_z - max_range, mid_z + max_range)
+    ax.set_xlabel('x')
+    ax.set_ylabel('z')
+    ax.set_zlabel('-y')
+    ax.set_title('Extrinsic Parameters Visualization')
     
     plt.show()
 
