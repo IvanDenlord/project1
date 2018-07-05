@@ -9,7 +9,7 @@ from numpy import linspace
 import argparse
 import cv2 as cv
 
-def create_create_camera_model(camera_matrix, width, height, scale_focal, draw_frame_axis=False):
+def create_camera_model(camera_matrix, width, height, scale_focal):
     fy = camera_matrix[1,1]
     fx = camera_matrix[0,0]
     focal = 2 / (fx + fy)
