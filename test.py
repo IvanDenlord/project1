@@ -9,6 +9,61 @@ from numpy import linspace
 import argparse
 import cv2 as cv
 
+def create_camera_model(camera_matrix, width, height, scale_focal, draw_frame_axis=False):
+    fx = camera_matrix[0,0]
+    fy = camera_matrix[1,1]
+    focal = 2 / (fx + fy)
+    f_scale = scale_focal * focal
+
+    # draw image plane
+    X_img_plane = np.ones((4,5))
+    X_img_plane[0:3,0] = [-width, height, f_scale]
+    X_img_plane[0:3,1] = [width, height, f_scale]
+    X_img_plane[0:3,2] = [width, -height, f_scale]
+    X_img_plane[0:3,3] = [-width, -height, f_scale]
+    X_img_plane[0:3,4] = [-width, height, f_scale]
+
+    # draw triangle above the image plane
+    X_triangle = np.ones((4,3))
+    X_triangle[0:3,0] = [-width, -height, f_scale]
+    X_triangle[0:3,1] = [0, -2*height, f_scale]
+    X_triangle[0:3,2] = [width, -height, f_scale]
+
+    # draw camera frame axis
+    X_frame1 = np.ones((4,2))
+    X_frame1[0:3,0] = [0, 0, 0]
+    X_frame1[0:3,1] = [f_scale/2, 0, 0]
+
+    X_frame2 = np.ones((4,2))
+    X_frame2[0:3,0] = [0, 0, 0]
+    X_frame2[0:3,1] = [0, f_scale/2, 0]
+
+    X_frame3 = np.ones((4,2))
+    X_frame3[0:3,0] = [0, 0, 0]
+    X_frame3[0:3,1] = [0, 0, f_scale/2]
+    
+    # draw camera
+    X_center1 = np.ones((4,2))
+    X_center1[0:3,0] = [0, 0, 0]
+    X_center1[0:3,1] = [-width, height, f_scale]
+
+    X_center2 = np.ones((4,2))
+    X_center2[0:3,0] = [0, 0, 0]
+    X_center2[0:3,1] = [width, height, f_scale]
+
+    X_center3 = np.ones((4,2))
+    X_center3[0:3,0] = [0, 0, 0]
+    X_center3[0:3,1] = [width, -height, f_scale]
+
+    X_center4 = np.ones((4,2))
+    X_center4[0:3,0] = [0, 0, 0]
+    X_center4[0:3,1] = [-width, -height, f_scale]
+
+    if draw_frame_axis:
+        return [X_img_plane, X_triangle, X_center1, X_center2, X_center3, X_center4, X_frame1, X_frame2, X_frame3]
+    else:
+        return [X_img_plane, X_triangle, X_center1, X_center2, X_center3, X_center4]
+    
 def transform_to_matplotlib_frame(cMo, X, inverse=False):
     M = np.identity(4)
     M[1,1] = 0
