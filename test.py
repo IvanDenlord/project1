@@ -50,6 +50,19 @@ def create_camera_model(camera_matrix, width, height, scale_focal, draw_frame_ax
     X_triangle[0:3,1] = [0, -2*height, f_scale]
     X_triangle[0:3,2] = [width, -height, f_scale]
 
+    # draw camera frame axis
+    X_frame1 = np.ones((4,2))
+    X_frame1[0:3,0] = [0, 0, 0]
+    X_frame1[0:3,1] = [f_scale/2, 0, 0]
+
+    X_frame2 = np.ones((4,2))
+    X_frame2[0:3,0] = [0, 0, 0]
+    X_frame2[0:3,1] = [0, f_scale/2, 0]
+
+    X_frame3 = np.ones((4,2))
+    X_frame3[0:3,0] = [0, 0, 0]
+    X_frame3[0:3,1] = [0, 0, f_scale/2]
+    
     # draw camera
     X_center1 = np.ones((4,2))
     X_center1[0:3,0] = [0, 0, 0]
@@ -66,19 +79,6 @@ def create_camera_model(camera_matrix, width, height, scale_focal, draw_frame_ax
     X_center4 = np.ones((4,2))
     X_center4[0:3,0] = [0, 0, 0]
     X_center4[0:3,1] = [-width, -height, f_scale]
-
-    # draw camera frame axis
-    X_frame1 = np.ones((4,2))
-    X_frame1[0:3,0] = [0, 0, 0]
-    X_frame1[0:3,1] = [f_scale/2, 0, 0]
-
-    X_frame2 = np.ones((4,2))
-    X_frame2[0:3,0] = [0, 0, 0]
-    X_frame2[0:3,1] = [0, f_scale/2, 0]
-
-    X_frame3 = np.ones((4,2))
-    X_frame3[0:3,0] = [0, 0, 0]
-    X_frame3[0:3,1] = [0, 0, f_scale/2]
 
     if draw_frame_axis:
         return [X_img_plane, X_triangle, X_center1, X_center2, X_center3, X_center4, X_frame1, X_frame2, X_frame3]
