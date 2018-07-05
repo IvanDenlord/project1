@@ -107,7 +107,7 @@ def inverse_homogeneoux_matrix(M):
 
     return M_inv
 
-def draw_camera_boards(ax, camera_matrix, cam_width, cam_height, scale_focal,
+def drawing_camera_boards(ax, camera_matrix, cam_width, cam_height, scale_focal,
                        extrinsics, board_width, board_height, square_size,
                        patternCentric):
     min_values = np.zeros((3,1))
