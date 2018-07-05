@@ -7,7 +7,6 @@ import numpy as np
 from matplotlib import cm
 from numpy import linspace
 import argparse
-import cv2 as cv
 
 def create_create_camera_model_model(camera_matrix, width, height, scale_focal, draw_frame_axis=False,new_param=True):
     fy = camera_matrix[1,1]
