@@ -9,15 +9,6 @@ from numpy import linspace
 import argparse
 import cv2 as cv
 
-def inverse_homogeneoux_matrix(M):
-    R = M[0:3, 0:3]
-    T = M[0:3, 3]
-    M_inv = np.identity(4)
-    M_inv[0:3, 0:3] = R.T
-    M_inv[0:3, 3] = -(R.T).dot(T)
-
-    return M_inv
-
 def transform_to_matplotlib_frame(cMo, X, inverse=False):
     M = np.identity(4)
     M[1,1] = 0
@@ -115,6 +106,15 @@ def create_board_model(extrinsics, board_width, board_height, square_size, draw_
         return [X_board, X_frame1, X_frame2, X_frame3]
     else:
         return [X_board]
+
+def inverse_homogeneoux_matrix(M):
+    R = M[0:3, 0:3]
+    T = M[0:3, 3]
+    M_inv = np.identity(4)
+    M_inv[0:3, 0:3] = R.T
+    M_inv[0:3, 3] = -(R.T).dot(T)
+
+    return M_inv
 
 def draw_camera_boards(ax, camera_matrix, cam_width, cam_height, scale_focal,
                        extrinsics, board_width, board_height, square_size,
